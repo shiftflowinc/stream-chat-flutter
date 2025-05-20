@@ -1,3 +1,8 @@
+## Upcoming
+
+🐞 Fixed
+- `Null check operator used on a null value` in Websocket connect.
+
 ## 9.7.0
 
 ✅ Added
