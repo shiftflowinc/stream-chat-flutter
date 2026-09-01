@@ -90,6 +90,8 @@ class StreamChat extends StatefulWidget {
 
 /// The current state of the StreamChat widget
 class StreamChatState extends State<StreamChat> {
+  final bool _shouldSyncJiffyLocale = Intl.defaultLocale == null;
+
   /// Gets client from widget
   StreamChatClient get client => widget.client;
 
@@ -161,7 +163,7 @@ class StreamChatState extends State<StreamChat> {
 
   @override
   void didChangeDependencies() {
-    if (Intl.defaultLocale == null) {
+    if (_shouldSyncJiffyLocale) {
       final currentLocale =
           Localizations.localeOf(context).toString().toLowerCase();
       final availableLocales = Jiffy.getSupportedLocales();

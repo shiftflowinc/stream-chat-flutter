@@ -21,10 +21,14 @@ void main() {
 
   tearDown(() => Intl.defaultLocale = null);
 
-  Widget buildApp() => MaterialApp(
-        locale: const Locale('en'),
-        supportedLocales: const [Locale('en')],
-        home: StreamChat(client: client, child: const Scaffold()),
+  Widget buildApp([Locale locale = const Locale('en')]) => MaterialApp(
+        home: Builder(
+          builder: (context) => Localizations.override(
+            context: context,
+            locale: locale,
+            child: StreamChat(client: client, child: const Scaffold()),
+          ),
+        ),
       );
 
   testWidgets(
@@ -46,6 +50,19 @@ void main() {
       await tester.pumpWidget(buildApp());
 
       expect(Intl.defaultLocale, 'en_GB');
+    },
+  );
+
+  testWidgets(
+    'keeps syncing when Stream Chat initialized Intl.defaultLocale',
+    (tester) async {
+      Intl.defaultLocale = null;
+
+      await tester.pumpWidget(buildApp());
+      expect(Intl.defaultLocale, 'en');
+
+      await tester.pumpWidget(buildApp(const Locale('fr')));
+      expect(Intl.defaultLocale, 'fr');
     },
   );
 }
