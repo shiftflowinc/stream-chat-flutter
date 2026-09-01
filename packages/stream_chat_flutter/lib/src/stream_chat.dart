@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
+import 'package:intl/intl.dart';
 import 'package:stream_chat_flutter/src/misc/empty_widget.dart';
 import 'package:stream_chat_flutter/src/video/vlc/vlc_manager.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
@@ -160,11 +161,13 @@ class StreamChatState extends State<StreamChat> {
 
   @override
   void didChangeDependencies() {
-    final currentLocale =
-        Localizations.localeOf(context).toString().toLowerCase();
-    final availableLocales = Jiffy.getSupportedLocales();
-    if (availableLocales.contains(currentLocale)) {
-      Jiffy.setLocale(currentLocale);
+    if (Intl.defaultLocale == null) {
+      final currentLocale =
+          Localizations.localeOf(context).toString().toLowerCase();
+      final availableLocales = Jiffy.getSupportedLocales();
+      if (availableLocales.contains(currentLocale)) {
+        Jiffy.setLocale(currentLocale);
+      }
     }
     super.didChangeDependencies();
   }

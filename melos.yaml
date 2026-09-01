@@ -56,6 +56,7 @@ command:
       http_parser: ^4.0.2
       image_picker: ^1.1.2
       image_size_getter: ^2.3.0
+      intl: ^0.20.2
       jiffy: ^6.2.1
       jose: ^0.3.4
       json_annotation: ^4.9.0
