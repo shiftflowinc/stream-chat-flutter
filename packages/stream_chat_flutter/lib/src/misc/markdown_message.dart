@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:stream_chat_flutter/src/ai_assistant/streaming_message_view.dart';
 import 'package:stream_chat_flutter/src/theme/message_theme.dart';
 

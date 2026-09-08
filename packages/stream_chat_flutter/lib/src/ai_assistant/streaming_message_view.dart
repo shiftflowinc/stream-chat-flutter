@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:stream_chat_flutter/src/ai_assistant/stream_typewriter_builder.dart';
 import 'package:stream_chat_flutter/src/misc/markdown_message.dart';
 import 'package:stream_chat_flutter/src/utils/device_segmentation.dart';
