@@ -68,7 +68,6 @@ class StreamAttachmentHandler extends StreamAttachmentHandlerBase {
       _instance ??= StreamAttachmentHandler._();
 
   late final _imagePicker = ImagePicker();
-  late final _filePicker = FilePicker.platform;
 
   @override
   Future<Attachment?> pickImage({
@@ -116,19 +115,20 @@ class StreamAttachmentHandler extends StreamAttachmentHandlerBase {
     bool withReadStream = false,
     bool lockParentWindow = true,
   }) async {
-    final result = await _filePicker.pickFiles(
+    final result = await FilePicker.pickFile(
       dialogTitle: dialogTitle,
       initialDirectory: initialDirectory,
       type: type,
       allowedExtensions: allowedExtensions,
       onFileLoading: onFileLoading,
-      allowCompression: allowCompression,
-      withData: withData,
-      withReadStream: withReadStream,
-      lockParentWindow: lockParentWindow,
+      windowsOptions: WindowsOptions(lockParentWindow: lockParentWindow),
+      linuxOptions: LinuxOptions(lockParentWindow: lockParentWindow),
     );
 
-    return result?.files.first.toAttachment(type: type.toAttachmentType());
+    return result?.toAttachment(
+      type: type.toAttachmentType(),
+      withData: withData,
+    );
   }
 
   @override
