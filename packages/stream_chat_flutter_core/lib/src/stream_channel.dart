@@ -166,7 +166,9 @@ class StreamChannelState extends State<StreamChannel> {
       }
       _queryTopMessagesController.safeAdd(false);
     } catch (e, stk) {
-      _queryTopMessagesController.safeAddError(e, stk);
+      _queryTopMessagesController
+        ..safeAdd(false)
+        ..safeAddError(e, stk);
     }
   }
 
@@ -201,7 +203,9 @@ class StreamChannelState extends State<StreamChannel> {
       }
       _queryBottomMessagesController.safeAdd(false);
     } catch (e, stk) {
-      _queryBottomMessagesController.safeAddError(e, stk);
+      _queryBottomMessagesController
+        ..safeAdd(false)
+        ..safeAddError(e, stk);
     }
   }
 
@@ -251,7 +255,9 @@ class StreamChannelState extends State<StreamChannel> {
       }
       _queryTopMessagesController.safeAdd(false);
     } catch (e, stk) {
-      _queryTopMessagesController.safeAddError(e, stk);
+      _queryTopMessagesController
+        ..safeAdd(false)
+        ..safeAddError(e, stk);
     }
   }
 
