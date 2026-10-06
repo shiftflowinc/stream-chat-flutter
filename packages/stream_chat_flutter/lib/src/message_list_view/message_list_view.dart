@@ -97,7 +97,9 @@ class StreamMessageListView extends StatefulWidget {
     // we need to use ClampingScrollPhysics to avoid the list view to bounce
     // when we are at the either end of the list view and try to use 'animateTo'
     // to animate in the same direction.
-    this.scrollPhysics = const ClampingScrollPhysics(),
+    this.scrollPhysics = const ClampingScrollPhysics(
+      parent: AlwaysScrollableScrollPhysics(),
+    ),
     this.initialScrollIndex,
     this.initialAlignment,
     this.scrollController,

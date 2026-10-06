@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
 enum _LoadingStatus { loading, stable }
@@ -51,13 +52,51 @@ class LazyLoadScrollView extends StatefulWidget {
 class _LazyLoadScrollViewState extends State<LazyLoadScrollView> {
   var _loadMoreStatus = _LoadingStatus.stable;
   double _scrollPosition = 0;
+  ScrollMetrics? _scrollMetrics;
 
   @override
   Widget build(BuildContext context) =>
-      NotificationListener<ScrollNotification>(
-        onNotification: _onNotification,
-        child: widget.child,
+      NotificationListener<ScrollMetricsNotification>(
+        onNotification: (notification) {
+          if (notification.depth == 0) {
+            _scrollMetrics = notification.metrics;
+          }
+          return false;
+        },
+        child: NotificationListener<ScrollNotification>(
+          onNotification: _onNotification,
+          child: Listener(
+            onPointerSignal: _onPointerSignal,
+            child: widget.child,
+          ),
+        ),
       );
+
+  void _onPointerSignal(PointerSignalEvent event) {
+    final metrics = _scrollMetrics;
+    if (event is! PointerScrollEvent ||
+        metrics == null ||
+        metrics.minScrollExtent != metrics.maxScrollExtent) {
+      return;
+    }
+    final delta = metrics.axis == Axis.vertical
+        ? event.scrollDelta.dy
+        : event.scrollDelta.dx;
+    final offset =
+        axisDirectionIsReversed(metrics.axisDirection) ? -delta : delta;
+    if (offset == 0 ||
+        (offset > 0 && widget.onEndOfPage == null) ||
+        (offset < 0 && widget.onStartOfPage == null)) {
+      return;
+    }
+    GestureBinding.instance.pointerSignalResolver.register(event, (_) {
+      if (offset > 0) {
+        _onEndOfPage();
+      } else {
+        _onStartOfPage();
+      }
+    });
+  }
 
   bool _onNotification(ScrollNotification notification) {
     if (notification is ScrollStartNotification) {
